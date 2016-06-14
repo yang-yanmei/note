@@ -1,0 +1,2 @@
+js去掉所有html标记
+str.replace(/<[^>]+>/g,"")
