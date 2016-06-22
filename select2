@@ -1,0 +1,13 @@
+#coffee
+$(document).ready ->
+  $.getScript 'js/plugin/select2/select2.min.js', ->
+    $('#mySel').select2 {}
+  return
+  
+#jade    
+select#mySel.form-control
+  option(ng-repeat='item in items', ng-selected='item.selected', ng-model='item.tag') {{item.tag}}
+
+#route    
+"http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.css",
+"http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2-bootstrap.css",
