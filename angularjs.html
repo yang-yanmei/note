@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>angularjs 国际化模块</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<h1>
+			1、在使用angular-translate前的准备工作<br>
+			<small>使用bower管理工具下载 angular 及 angular-translate</small>
+		</h1>
+		<pre>bower install angular --save-dev<br>bower install angular-translate --save-dev<br>bower install angular-translate-loader-static-files --save-dev<br></pre>
+		<pre><p>//在index.html页面引入</p>&lt;script src=&quot;bower_components/angular/angular.min.js&quot;&gt;&lt;/script&gt; <br>&lt;script src=&quot;bower_components/angular-translate/angular-translate.min.js&quot;&gt;&lt;/script&gt;<br>&lt;script src=&quot;bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js&quot;&gt;&lt;/script&gt;</pre>
+		<div class="alert alert-info alert-block">
+			<p>angular-translate-loader-static-files.min.js 模块是用来读取本地文件的模块，因为我们把翻译内容写在独立的json文件中。</p>
+			<h5 class="txt-red">
+				<code>如果不引入改文件，我们就必须把翻译文件直接写在app.coffee中的.config中，例如：</code>
+			</h5>
+			<pre>$translateProvider.translations('en', {
+
+  }).translations('zh', {
+    "Expert Bases": "科技智库",
+    "Today's Stars": "今日之星",
+    "Hot Topics": "热点话题",
+    "Statistics": "统计数据",
+    "Academic Rankings": "学术排行榜",
+    "Login": "登录",
+    "Please enter email address/username": "请输入您的电子邮件地址或用户名",
+    "E-mail": "电子邮件",
+    "Password": "用户密码",
+    "Enter your password": "请输入您的密码",
+    "Forgot password?": "忘记密码？",
+    "Stay signed in": "保持登录状态",
+    "Please enter your email and password.": "请输入您的电子邮件地址和密码",
+    "Wrong username or password": "用户名或密码错误",
+    "Sign up": "立即注册",
+    "Sign in": "立即登录",
+    "Sign In": "立即登录",
+    "What's New": "最新动态",
+    "Sign Up": "立即注册",
+    "I see": "明白了",
+    "Incorrect Token.": "错误的验证码。",
+    "Frequency Limit Exceeded:": "请求过快：",
+    "Please try again": "  请重试",
+    "seconds later": "秒后"
+    "Please receive a mail in your email box for initializing your account. <br> Note that the mail may be left in trash box.": "请前往邮箱收信以便激活账号。<br>注意可能丢失在垃圾邮箱里。",
+    "Other login method": "其它登录方式",
+    "Doesn't look like a valid email.": "您填写的邮件地址格式有误，请检查",
+    "What's your email address?": "请输入您的电子邮件地址"
+    })
+			</pre>
+
+			<h5 class="txt-red">
+				<code>
+					<ul style="list-style-type:decimal;">
+						<li>如果引入改文件，我们需要在跟目录下创建独立的json文件，我的目录为/client/i18n/zh.json,zh.json文件就是普通的json文件</li>
+						<li>需要在app.coffee的config中注入依赖</li>
+						<li>在Gruntfile.js文件中配置部署时读取的文件</li>
+					</ul>	
+				</code>
+				<pre><h4>第一步的详细信息</h4>{"Expert Bases": "科技智库",
+  "Today's Stars": "今日之星",
+  "Hot Topics": "热点话题",
+  "Statistics": "统计数据",
+  "Academic Rankings": "学术排行榜",
+  "Login": "登录",
+  "Please enter email address/username": "请输入您的电子邮件地址或用户名",
+  "E-mail": "电子邮件",
+  "Password": "用户密码",
+  "Enter your password": "请输入您的密码",
+  "Forgot password?": "忘记密码？",
+  "Stay signed in": "保持登录状态",
+  "Please enter your email and password.": "请输入您的电子邮件地址和密码",
+  "Wrong username or password": "用户名或密码错误",
+  "Sign up": "立即注册",
+  "Sign in": "立即登录",
+  "Sign In": "立即登录",
+  "What's New": "最新动态",
+  "Sign Up": "立即注册"
+  }</pre>
+  			<pre><h4>第二步的详细信息</h4>
+  lang = window.localStorage.lang || 'en'
+  $translateProvider.preferredLanguage(lang);
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/i18n/',
+    suffix: '.json'
+  });
+  <span style="color:red;">
+  prefix : 指定文件前缀.
+
+  suffix: 指定文件后缀.
+  </span> 
+</pre>
+		<pre><h4>第三步的详细信息</h4>copy: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.client %>',
+            dest: '<%= yeoman.dist %>/public',
+            src: [
+              '*.{ico,png,txt}',
+              '.htaccess',
+              'bower_components/**/*',
+              'assets/images/{,*/}*.{webp}',
+              'assets/fonts/**/*',
+              'css/**/*',
+              'fonts/**/*',
+              'img/**/*',
+              <span style="background-color:yellow;">'i18n/*',</span>
+              'js/**/*',
+              'index.html'
+            ]
+          }
+		</pre>
+		<pre><h4>第四步的详细信息</h4>在language改变的时候要设置<span style="background-color:yellow;">window.localStorage.lang = lang;</span></pre>
+		</h5>
+		</div>
+
+	</div>
+
+
+</body>
+</html>
